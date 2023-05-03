@@ -1,0 +1,36 @@
+{
+  "name": "ecommerce-scraper-js",
+  "description": "Scrape Amazon, eBay, Walmart, Home Depot, Google Shopping from a single JS module. Sponsored by SerpApi.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimitryzub/ecommerce-scraper-js.git"
+  },
+  "keywords": [
+    "webscraping",
+    "scrape",
+    "serpapi",
+    "amazon",
+    "ebay",
+    "home depot",
+    "walmart",
+    "google shopping",
+    "ecommerce"
+  ],
+  "author": "https://github.com/Mykhailo-Zub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dimitryzub/ecommerce-scraper-js/issues"
+  },
+  "homepage": "https://github.com/dimitryzub/ecommerce-scraper-js#readme",
+  "dependencies": {
+    "puppeteer": "^19.11.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
