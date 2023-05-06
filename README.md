@@ -1,7 +1,7 @@
 <div align="center">
 <p>Sponsor of the project:</p>
 <div>
-   <img src="https://user-images.githubusercontent.com/78694043/231375638-5bbf2989-fc7b-482a-b6fe-603d1d6d613f.svg" width="100" alt="SerpApi">
+   <img src="https://user-images.githubusercontent.com/78694043/231375638-5bbf2989-fc7b-482a-b6fe-603d1d6d613f.svg" width="60" alt="SerpApi">
 </div>
 <a href="https://serpapi.com">
 	<b>API to get search engine results with ease.</b>
@@ -34,7 +34,7 @@ Add `ecommerce-scraper-js` to your project dependency:
 npm i ecommerce-scraper-js
 ```
 
-## In code usage
+## In-code usage
 
 📌Note: Only [ES modules](https://nodejs.org/api/esm.html) `import` statement is available.
 
@@ -64,9 +64,7 @@ getParams()
 - `priceFrom` - min price filter value;
 - `priceTo` - max price filter value;
 - `customerReviewsRating` - customer review rating filter. Can be set from 1 to 4.;
-- `link` - listing ling;
-- `currency` - currency code. You can use both "text" or "code" from `getParams().currencies`;
-- `language` - interface language code. You can use both "text" or "code" from `getParams().currencies`;
+- `link` - listing link;
 - `reviewsLimit` - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
 
 </details>

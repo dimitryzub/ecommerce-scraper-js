@@ -6,9 +6,12 @@ let multiplier = 1;
 const scrollPage = async (page, reviewsLimit) => {
   const getHeight = async () =>
     await page.evaluate(
-      `document.querySelector('[data-testid="modal-container"] ${reviewsLimit ? "._17itzz4" : "section [role] > div:last-child"}').scrollHeight`
+      `document.querySelector('[data-testid="modal-container"] ${
+        reviewsLimit ? "._17itzz4" : "section [role] > div:last-child"
+      }').scrollHeight`
     );
-  const getResultsLength = async () => Array.from(await page.$$('[data-testid="modal-container"] .r1are2x1'))?.length;
+  const getResultsLength = async () =>
+    Array.from(await page.$$('[data-testid="modal-container"] .r1are2x1'))?.length;
   let lastHeight = await getHeight();
   let resultsLength = await getResultsLength();
   const clickCount = reviewsLimit ? 5 : 15;
@@ -41,18 +44,24 @@ const getMainInfo = async (page) => {
         ? Array.from(document.querySelectorAll("#productOverview_feature_div tr"))?.reduce(
             (acc, el) => ({
               ...acc,
-              [`${el.querySelector("td:first-child")?.textContent.trim()}`]: el.querySelector("td:last-child")?.textContent.trim(),
+              [`${el.querySelector("td:first-child")?.textContent.trim()}`]: el
+                .querySelector("td:last-child")
+                ?.textContent.trim(),
             }),
             {}
           )
         : undefined,
       features: document.querySelector("#featurebullets_feature_div li")
-        ? Array.from(document.querySelectorAll("#featurebullets_feature_div li"))?.map((el) => el.textContent.trim())
+        ? Array.from(document.querySelectorAll("#featurebullets_feature_div li"))?.map((el) =>
+            el.textContent.trim()
+          )
         : undefined,
       productInformation:
-        document.querySelector("#productDetails_feature_div tr") || document.querySelector("#detailBulletsWrapper_feature_div li")
+        document.querySelector("#productDetails_feature_div tr") ||
+        document.querySelector("#detailBulletsWrapper_feature_div li")
           ? Array.from(
-              document.querySelectorAll("#productDetails_feature_div tr") || document.querySelectorAll("#detailBulletsWrapper_feature_div li")
+              document.querySelectorAll("#productDetails_feature_div tr") ||
+                document.querySelectorAll("#detailBulletsWrapper_feature_div li")
             )?.reduce((acc, el) => {
               const element = el.querySelector("td") || el.querySelector("span > span:last-child");
               let text = "";
@@ -68,7 +77,12 @@ const getMainInfo = async (page) => {
               } else {
                 text = undefined;
               }
-              return { ...acc, [`${(el.querySelector("th") || el.querySelector("span > span:first-child"))?.textContent.trim()}`]: text };
+              return {
+                ...acc,
+                [`${(
+                  el.querySelector("th") || el.querySelector("span > span:first-child")
+                )?.textContent.trim()}`]: text,
+              };
             }, {})
           : undefined,
       description: document.querySelector("#productDescription span")?.textContent.trim(),
@@ -82,7 +96,14 @@ const getMainInfo = async (page) => {
             )?.split(" ")[0]
           ) || undefined,
         reviewsAmount:
-          parseInt(document.querySelector("#acrCustomerReviewLink")?.textContent.trim().split(" ")[0].replace(",", "").replace(".", "")) || undefined,
+          parseInt(
+            document
+              .querySelector("#acrCustomerReviewLink")
+              ?.textContent.trim()
+              .split(" ")[0]
+              .replace(",", "")
+              .replace(".", "")
+          ) || undefined,
       },
     };
   });
@@ -92,21 +113,29 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
   multiplier = multiplierArgument;
   const { currencies, languages } = getParams();
   const selectedLanguage = languages.find(
-    (el) => el.code.toLowerCase() === language?.toLowerCase() || el.text.toLowerCase() === language?.toLowerCase()
+    (el) =>
+      el.code.toLowerCase() === language?.toLowerCase() ||
+      el.text.toLowerCase() === language?.toLowerCase()
   )?.code;
 
   if (language) {
     if (!selectedLanguage) {
-      throw new Error(`Please select available language (use "getParams().languages" to get all languages list).`);
+      throw new Error(
+        `Please select available language (use "getParams().languages" to get all languages list).`
+      );
     }
   }
   const currencyCode = currencies.find(
-    (el) => el.code.toLowerCase() === currency?.toLowerCase() || el.text.toLowerCase() === currency?.toLowerCase()
+    (el) =>
+      el.code.toLowerCase() === currency?.toLowerCase() ||
+      el.text.toLowerCase() === currency?.toLowerCase()
   )?.code;
 
   if (currency) {
     if (!currencyCode) {
-      throw new Error(`Please select available currency (use "getParams().currencies" to get all currencies list).`);
+      throw new Error(
+        `Please select available currency (use "getParams().currencies" to get all currencies list).`
+      );
     }
   }
 
@@ -139,17 +168,23 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
     await page.keyboard.press("PageUp");
     await waitForTimeout(500 * multiplier);
   }
-  await page.focus("#cr-summarization-attributes-list");
-  await waitForTimeout(2000 * multiplier);
-  listingInfo.reviewsInfo.byFeature = await page.evaluate(() =>
-    Array.from(document.querySelectorAll("#cr-summarization-attributes-list > div"))?.reduce(
-      (acc, el) => ({
-        ...acc,
-        [`${el.querySelector(".a-col-left")?.textContent.trim()}`]: el.querySelector("i > span")?.textContent.trim(),
-      }),
-      {}
-    )
-  );
+
+  const isByFeature = await page.$("#cr-summarization-attributes-list");
+  if (isByFeature) {
+    await page.focus("#cr-summarization-attributes-list");
+    await waitForTimeout(2000 * multiplier);
+    listingInfo.reviewsInfo.byFeature = await page.evaluate(() =>
+      Array.from(document.querySelectorAll("#cr-summarization-attributes-list > div"))?.reduce(
+        (acc, el) => ({
+          ...acc,
+          [`${el.querySelector(".a-col-left")?.textContent.trim()}`]: el
+            .querySelector("i > span")
+            ?.textContent.trim(),
+        }),
+        {}
+      )
+    );
+  }
 
   //buying options
   const buyingOptionsButton = await page.$(`#buybox-see-all-buying-choices`);
@@ -176,16 +211,26 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
             ?.textContent.trim()
             .replace(/\s{2}|\\n/gm, ""),
           price: el.querySelector(".a-price .a-offscreen")?.textContent.trim(),
-          delivery: el.querySelector("#mir-layout-DELIVERY_BLOCK > div:first-child > span.a-color-error")
-            ? el.querySelector("#mir-layout-DELIVERY_BLOCK > div:first-child > span.a-color-error").textContent.trim()
+          delivery: el.querySelector(
+            "#mir-layout-DELIVERY_BLOCK > div:first-child > span.a-color-error"
+          )
+            ? el
+                .querySelector("#mir-layout-DELIVERY_BLOCK > div:first-child > span.a-color-error")
+                .textContent.trim()
             : {
-                date: el.querySelector("#mir-layout-DELIVERY_BLOCK > div:first-child > span > span")?.textContent.trim(),
+                date: el
+                  .querySelector("#mir-layout-DELIVERY_BLOCK > div:first-child > span > span")
+                  ?.textContent.trim(),
                 price: text,
               },
-          shipsFrom: el.querySelector("#aod-offer-shipsFrom .aod-ships-from-country")?.textContent.trim(),
+          shipsFrom: el
+            .querySelector("#aod-offer-shipsFrom .aod-ships-from-country")
+            ?.textContent.trim(),
           soldBy: {
             seller: el.querySelector("#aod-offer-soldBy a")?.textContent.trim(),
-            sellerLink: `https://www.amazon.com${el.querySelector("#aod-offer-soldBy a")?.getAttribute("href")}`,
+            sellerLink: `https://www.amazon.com${el
+              .querySelector("#aod-offer-soldBy a")
+              ?.getAttribute("href")}`,
             sellerRating: el.querySelector("#aod-offer-seller-rating")?.textContent.trim(),
           },
         };
@@ -196,7 +241,9 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
   // reviews
   const isReviews = await page.$('[data-hook="see-all-reviews-link-foot"]');
   if (isReviews) {
-    await page.evaluate(`document.querySelector('[data-hook="see-all-reviews-link-foot"]').click()`);
+    await page.evaluate(
+      `document.querySelector('[data-hook="see-all-reviews-link-foot"]').click()`
+    );
     await waitForTimeout(3000 * multiplier);
     listingInfo.reviewsInfo.reviews = [];
     while (true) {
@@ -207,7 +254,9 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
           Array.from(document.querySelectorAll('[data-hook="review"]'))?.map((el) => ({
             name: el.querySelector(".a-profile-name")?.textContent.trim(),
             avatar: el.querySelector(".a-profile-avatar > img")?.getAttribute("src"),
-            rating: parseFloat(el.querySelector(" i > span")?.textContent.trim().split(" ")[0]) || undefined,
+            rating:
+              parseFloat(el.querySelector(" i > span")?.textContent.trim().split(" ")[0]) ||
+              undefined,
             summary: el.querySelector('[data-hook="review-title"]')?.textContent.trim(),
             dateAndPlace: el.querySelector('[data-hook="review-date"]')?.textContent.trim(),
             bage: el.querySelector('[data-hook="avp-badge"]')?.textContent.trim(),
@@ -222,6 +271,7 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
       await page.waitForSelector('[data-hook="review"]');
       await waitForTimeout(2000 * multiplier);
     }
+    listingInfo.reviewsInfo.reviews = listingInfo.reviewsInfo.reviews.slice(0, reviewsLimit);
   }
 
   await closeBrowser();

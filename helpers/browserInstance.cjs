@@ -7,8 +7,13 @@ puppeteer.use(StealthPlugin());
 
 const getBrowserInstance = async (timeMultiplier) => {
   const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--window-size=1600,900", "--single-process"],
+    headless: "new",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--window-size=1600,900",
+      "--single-process",
+    ],
     executablePath: executablePath(),
   });
 
@@ -22,7 +27,8 @@ const getBrowserInstance = async (timeMultiplier) => {
 
   const closeBrowser = async () => await browser.close();
 
-  const waitForTimeout = async (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+  const waitForTimeout = async (milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
 
   return { page, closeBrowser, waitForTimeout };
 };
