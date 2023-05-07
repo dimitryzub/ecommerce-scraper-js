@@ -1,8 +1,8 @@
 import currencies from "./currencies.js";
 import languages from "./languages.js";
 
-const getParams = () => {
+const getAmazonParams = () => {
   return { currencies, languages };
 };
 
-export default getParams;
+export default getAmazonParams;

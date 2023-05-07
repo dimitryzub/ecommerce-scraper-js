@@ -1,6 +1,8 @@
-import getParams from "./amazon/getParams.js";
-import getListingInfo from "./amazon/getListingInfo.js";
-import getListings from "./amazon/getListings.js";
+import getAmazonParams from "./amazon/getAmazonParams.js";
+import getAmazonListingInfo from "./amazon/getAmazonListingInfo.js";
+import getAmazonListings from "./amazon/getAmazonListings.js";
+import getWalmartListingInfo from "./walmart/getWalmartListingInfo.js";
+import getWalmartListings from "./walmart/getWalmartListings.js";
 import save from "./helpers/fileSaver.js";
 
 export const amazon = {
@@ -27,7 +29,7 @@ export const amazon = {
     priceTo,
     customerReviewsRating
   ) =>
-    getListings(
+    getAmazonListings(
       amazon.timeMultiplier,
       searchQuery,
       resultsLimit,
@@ -48,11 +50,42 @@ export const amazon = {
    * @return {Array.<Object>} - an array with listings.
    */
   getListingInfo: (link, currency, language, reviewsLimit) =>
-    getListingInfo(amazon.timeMultiplier, link, currency, language, reviewsLimit),
+    getAmazonListingInfo(amazon.timeMultiplier, link, currency, language, reviewsLimit),
 
   /**
    * Get available languages and currencies
    * @return {Object} An object with languages and currencies.
+   */
+  getParams: () => getAmazonParams(),
+};
+
+export const walmart = {
+  /**
+   * Get listings from Walmart
+   * @async
+   * @param {String} searchQuery - search query;
+   * @param {Number} resultsLimit - results amount you want to get. Must be a number or `Infinity`. Default - 40;
+   * @param {String} store - specific store code. You can use both "store_id" or "address" from `getParams().stores`;
+   * @param {Number} priceFrom - min price filter value;
+   * @param {Number} priceTo - max price filter value;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListings: (searchQuery, resultsLimit, store, priceFrom, priceTo) =>
+    getWalmartListings(searchQuery, resultsLimit, store, priceFrom, priceTo),
+
+  /**
+   * Get listing info from Walmart
+   * @async
+   * @param {String} link - product link;
+   * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
+   * @param {String} store - specific store code. You can use both "store_id" or "address" from `getParams().stores`;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListingInfo: (link, reviewsLimit, store) => getWalmartListingInfo(link, reviewsLimit, store),
+
+  /**
+   * Get available params
+   * @return {Object} An object with walmart stores.
    */
   getParams: () => getParams(),
 };

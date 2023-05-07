@@ -1,38 +1,7 @@
 import { getBrowserInstance } from "../helpers/browserInstance.cjs";
-import getParams from "./getParams.js";
+import getAmazonParams from "./getAmazonParams.js";
 
 let multiplier = 1;
-
-const scrollPage = async (page, reviewsLimit) => {
-  const getHeight = async () =>
-    await page.evaluate(
-      `document.querySelector('[data-testid="modal-container"] ${
-        reviewsLimit ? "._17itzz4" : "section [role] > div:last-child"
-      }').scrollHeight`
-    );
-  const getResultsLength = async () =>
-    Array.from(await page.$$('[data-testid="modal-container"] .r1are2x1'))?.length;
-  let lastHeight = await getHeight();
-  let resultsLength = await getResultsLength();
-  const clickCount = reviewsLimit ? 5 : 15;
-  for (let i = 0; i < 3; i++) {
-    await waitForTimeout(500 * multiplier);
-    await page.keyboard.press("Tab");
-  }
-  while (reviewsLimit ? resultsLength < reviewsLimit + 10 : true) {
-    for (let i = 0; i < clickCount; i++) {
-      await waitForTimeout(500 * multiplier);
-      await page.keyboard.press("PageDown");
-    }
-    await waitForTimeout(5000 * multiplier);
-    let newHeight = await getHeight();
-    if (newHeight === lastHeight) {
-      break;
-    }
-    lastHeight = newHeight;
-    resultsLength = await getResultsLength();
-  }
-};
 
 const getMainInfo = async (page) => {
   return await page.evaluate(() => {
@@ -109,9 +78,15 @@ const getMainInfo = async (page) => {
   });
 };
 
-const getListingInfo = async (multiplierArgument, link, currency, language, reviewsLimit = 10) => {
+const getAmazonListingInfo = async (
+  multiplierArgument,
+  link,
+  currency,
+  language,
+  reviewsLimit = 10
+) => {
   multiplier = multiplierArgument;
-  const { currencies, languages } = getParams();
+  const { currencies, languages } = getAmazonParams();
   const selectedLanguage = languages.find(
     (el) =>
       el.code.toLowerCase() === language?.toLowerCase() ||
@@ -279,4 +254,4 @@ const getListingInfo = async (multiplierArgument, link, currency, language, revi
   return listingInfo;
 };
 
-export default getListingInfo;
+export default getAmazonListingInfo;
