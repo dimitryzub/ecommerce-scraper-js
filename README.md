@@ -23,7 +23,7 @@ Currently supports:
 - [Amazon](https://amazon.com/)
 - [Walmart](https://www.walmart.com/)
 - [eBay](https://www.ebay.com/)
-- [Home Depot](https://www.homedepot.com/) (Soon)
+- [Home Depot](https://www.homedepot.com/)
 - [Google Shopping](https://shopping.google.com/) (Soon)
 
 ## Install
@@ -38,14 +38,15 @@ npm i ecommerce-scraper-js
 
 📌Note: Only [ES modules](https://nodejs.org/api/esm.html) `import` statement is available.
 
-Import `amazon`, and/or `walmart`, and/or `ebay` to your file:
+Import `amazon`, and/or `walmart`, and/or `ebay`, and/or `homeDepot` to your file:
 
 ```javascript
-import { amazon, walmart, ebay } from "ecommerce-scraper-js";
+import { amazon, walmart, ebay, homeDepot } from "ecommerce-scraper-js";
 
 amazon.getListings().then(console.log);
 walmart.getListings().then(console.log);
 ebay.getListings().then(console.log);
+homeDepot.getListings().then(console.log);
 ```
 
 `amazon` available methods:
@@ -106,6 +107,27 @@ getParams()
 - `searchQuery` - search query;
 - `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 40;
 - `country` - ebay domain. You can use both "domain" or "country" from `getParams().countries`;
+- `priceFrom` - min price filter value;
+- `priceTo` - max price filter value;
+- `link` - product link;
+- `reviewsLimit` - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 20;
+
+</details>
+
+`homeDepot` available methods:
+
+```javascript
+getListings(searchQuery[, resultsLimit[, zipCode[, priceFrom[, priceTo]]]])
+getListingInfo(link[, zipCode])
+getParams()
+```
+
+<details>
+<summary>Full parameters list</summary>
+
+- `searchQuery` - search query;
+- `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 40;
+- `zipCode` - ZIP Postal code. To filter the shipping products by a selected area;
 - `priceFrom` - min price filter value;
 - `priceTo` - max price filter value;
 - `link` - product link;
@@ -269,6 +291,74 @@ amazon.getListings().then(console.log);
       "thumbnail":"https://i.ebayimg.com/thumbs/images/g/-toAAOSwAUlkVsxL/s-l300.jpg",
       "watchers":"11 watchers",
       "extracted_watchers":11
+   },
+   ... and other results
+]
+```
+
+**The Home Depot results**
+
+```json
+[
+   {
+      "position":1,
+      "title":"Coffee Variety Pack Assorted Roast Single Serve Coffee Pods for Keurig K-Cup Brewers (96 Count)",
+      "thumbnails":[
+         [
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_65.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_100.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_145.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_300.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_400.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_600.jpg",
+            "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_1000.jpg"
+         ]
+      ],
+      "link":"https://www.homedepot.com/p/Victor-Allen-s-Coffee-Variety-Pack-Assorted-Roast-Single-Serve-Coffee-Pods-for-Keurig-K-Cup-Brewers-96-Count-FG014721/206090598",
+      "model_number":"FG014721",
+      "brand":"Victor Allen's",
+      "collection":"https://www.homedepot.com",
+      "favorite":126,
+      "rating":4.5098,
+      "reviews":153,
+      "price":45.99,
+      "delivery":{
+         "free":true,
+         "free_delivery_threshold":false
+      },
+      "pickup":{
+         "free_ship_to_store":true
+      }
+   },
+   {
+      "position":2,
+      "title":"Decaf Coffee Variety Pack Assorted Roast Single Serve Coffee Pods for Keurig K-Cup Brewers (54 Count)",
+      "thumbnails":[
+         [
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_65.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_100.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_145.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_300.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_400.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_600.jpg",
+            "https://images.thdstatic.com/productImages/9e9cef0b-2fcb-4f53-8e16-e33e6e630abc/svn/victor-allen-s-coffee-pods-k-cups-fg014841-64_1000.jpg"
+         ]
+      ],
+      "link":"https://www.homedepot.com/p/Victor-Allen-s-Decaf-Coffee-Variety-Pack-Assorted-Roast-Single-Serve-Coffee-Pods-for-Keurig-K-Cup-Brewers-54-Count-FG014841/301692319",
+      "model_number":"FG014841",
+      "brand":"Victor Allen's",
+      "collection":"https://www.homedepot.com",
+      "favorite":21,
+      "rating":4.7222,
+      "reviews":18,
+      "price":29.89,
+      "delivery":{
+         "free":true,
+         "free_delivery_threshold":false
+      },
+      "pickup":{
+         "free_ship_to_store":true
+      }
    },
    ... and other results
 ]
@@ -557,6 +647,138 @@ same functionality).  I then modded the main fin to make the shape right.  It lo
             "review":"Set is about 99-98% complete, but was definitely missing 20 or so integral pieces to the build. Have a lot of scrap pieces and fixed it up, but just wish it was a little much more complete."
          },
       ... and other reviews
+      ]
+   }
+}
+```
+
+**The Home Depot results**
+
+```json
+{
+   "title":"Coffee Variety Pack Assorted Roast Single Serve Coffee Pods for Keurig K-Cup Brewers (96 Count)",
+   "description":"Victor Allen's Coffee's Variety Pack includes a mix of our most popular blends! A unique combination of our favorite light, medium and dark roasts, there is sure to
+be a favorite for everyone! Morning Blend (a light body brew known for its even-keeled flavor profile and smooth finish). 100% Colombian (coffee beans exclusively from the top coffee farms in South America). Donut Shop Blend (a no frills, medium roast brew for the coffee purist). French Roast (velvety body with a soft, smoky flavor; intensely rich but always smooth).",
+   "link":"https://www.homedepot.com/p/Victor-Allen-s-Coffee-Variety-Pack-Assorted-Roast-Single-Serve-Coffee-Pods-for-Keurig-K-Cup-Brewers-96-Count-FG014721/206090598",
+   "model_number":"FG014721",
+   "favorite":126,
+   "rating":"4.5098",
+   "reviews":"153",
+   "price":45.99,
+   "highlights":[
+      "96 Single serve coffee pods",
+      "One of our most popular variety packs",
+      "100% Arabica coffee, gluten-free and non-GMO"
+   ],
+   "brand":{
+      "name":"Victor Allen's",
+      "link":"https://www.homedepot.com/b/Food-Gifts-Beverages-Coffee-Coffee-Pods-K-Cups/Victor-Allens/N-5yc1vZc6afZnig"
+   },
+   "images":[
+      [
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_65.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_100.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_145.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_300.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_400.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_600.jpg",
+         "https://images.thdstatic.com/productImages/b7cd2231-c562-4765-986f-e9501ec0359b/svn/victor-allen-s-coffee-pods-k-cups-fg014721-64_1000.jpg"
+      ],
+      [
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_65.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_100.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_145.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_300.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_400.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_600.jpg",
+         "https://images.thdstatic.com/productImages/b8676195-9269-4153-8429-25389f377a83/svn/victor-allen-s-coffee-pods-k-cups-fg014721-1d_1000.jpg"
+      ],
+      ... and other images
+   ],
+   "bullets":[
+      "COUNT: Includes 96 Single Serve Coffee Pods for Keurig K-Cup Brewers (24 OF EACH: Morning Blend, 100% Colombian, Donut Shop Blend, and French Roast)",
+      "ROAST: A mix of light, full bodied medium (smooth and robust) and dark (robust and bold) roasts",
+      "FLAVOR PROFILE: Morning Blend: Mild and satisfying with a subtle kick, striking a perfect balance between the quiet you want and the jolt you know you need to get moving in the morning; Donut Shop Blend: this classic brew is sweet and smooth, striking the perfect balance between mellow and bold, to deliver just enough bite to brighten your day; 100% Colombian: Lively and bright, starting rich and warmly aromatic-but landing softly with its mild acidity; French Roast: A velvety body with a soft, smoky flavor; intensely rich but always smooth",
+      "100% Gluten Free & Non-GMO: Our coffee products do not contain gluten or genetically modified ingredients",
+      "BRAND STORY: Since 1979 Victor Allen has been proud to bring you high-quality, roaster-fresh perfection. We source 100% Arabica beans from all over the world and use precision
+roasting techniques to guarantee the very best coffee",
+      "INGREDIENTS: 100% Arabica coffee",
+      "CAFFEINE CONTENT: Victor Allen's coffees range from 90-150 mgs per serving",
+      "SELECTION: Victor Allen's offers a wide selection of beverage choices from light, medium and dark roasts to everyday and seasonal flavors, in bagged, single serve and ready to
+drink formats.",
+      "HOW TO BREW RECOMMENDATIONS:STEP ONE: load your single serve cup into your brewerSTEP TWO: select the 8-floz setting on your brewer for the best tasteSTEP THREE: to prevent dripping upon completion of brewing carefully tilt the single serve cup upon removal from your brewerSTEP FOUR: Enjoy your precision roasted Victor Allen's Coffee",
+      "COMPATIBILITY: For use in all single serve brewing systems, including Keurig 2.0",
+      "Single Serve coffee pods for Keurig K-Cup Brewers. Keurig is a registered trademark of KEURIG GREEN MOUNTAIN, INC. K-Cups is a registered trademark of KEURIG GREEN MOUNTAIN, INC."
+   ],
+   "specifications":[
+      {
+         "key":"Details",
+         "value":[
+            {
+               "name":"Brand Compatibility",
+               "value":"Keurig"
+            },
+            {
+               "name":"Caffeination Type",
+               "value":"Regular"
+            },
+            {
+               "name":"Coffee/Tea Type",
+               "value":"Pods/K cups"
+            },
+            {
+               "name":"Diet & Allergens",
+               "value":"Not Applicable"
+            },
+            {
+               "name":"Flavor",
+               "value":"Variety Pack"
+            },
+            {
+               "name":"Food & Beverage Product Type",
+               "value":"Beverages"
+            },
+            {
+               "name":"Package Quantity",
+               "value":"96"
+            },
+            {
+               "name":"Product volume (fl. oz.)",
+               "value":"8"
+            },
+            {
+               "name":"Returnable",
+               "value":"90-Day"
+            }
+         ]
+      }
+   ],
+   "fulfillment":{
+      "countity":100,
+      "store":"Bangor",
+      "options":[
+         {
+            "type":"Ship to Home",
+            "title":"Get it by",
+            "arrival_time":[
+               "May 18",
+               "May 18"
+            ],
+            "bottom":"Free delivery"
+         },
+         {
+            "type":"Schedule delivery",
+            "title":"Not available for this item"
+         },
+         {
+            "type":"Ship to store",
+            "title":"Pickup",
+            "arrival_time":[
+               "May 18",
+               "May 19"
+            ],
+            "bottom":"FREE"
+         }
       ]
    }
 }

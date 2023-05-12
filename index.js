@@ -8,6 +8,8 @@ import getEbayListings from "./ebay/getEbayListings.js";
 import getEbayParams from "./ebay/getEbayParams.js";
 import getWalmartParams from "./walmart/getWalmartParams.js";
 import getEbayListingInfo from "./ebay/getEbayListingInfo.js";
+import getHomeDepotListings from "./homeDepot/getHomeDepotListings.js";
+import getHomeDepotListingInfo from "./homeDepot/getHomeDepotListingInfo.js";
 
 export const amazon = {
   timeMultiplier: 1,
@@ -125,6 +127,37 @@ export const ebay = {
    * @return {Object} An object with walmart stores.
    */
   getParams: () => getEbayParams(),
+};
+
+export const homeDepot = {
+  /**
+   * Get listings from The Home Depot
+   * @async
+   * @param {String} searchQuery - search query;
+   * @param {Number} resultsLimit - results amount you want to get. Must be a number or `Infinity`. Default - 40;
+   * @param {String} zipCode - ZIP Postal code. To filter the shipping products by a selected area;
+   * @param {Number} priceFrom - min price filter value;
+   * @param {Number} priceTo - max price filter value;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListings: (searchQuery, resultsLimit, zipCode, priceFrom, priceTo) =>
+    getHomeDepotListings(searchQuery, resultsLimit, zipCode, priceFrom, priceTo),
+
+  /**
+   * Get listing info from The Home Depot
+   * @async
+   * @param {String} link - product link;
+   * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
+   * @param {String} zipCode - ZIP Postal code. To filter the shipping products by a selected area;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListingInfo: (link, zipCode) => getHomeDepotListingInfo(link, zipCode),
+
+  /**
+   * Get available params
+   * @return {Object} An object with walmart stores.
+   */
+  getParams: () => getWalmartParams(),
 };
 
 /**

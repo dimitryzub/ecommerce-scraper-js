@@ -17,7 +17,7 @@ const getWalmartListingsInfo = async (link, limit = 20, store) => {
     )[0] || undefined;
 
   if (!parsedId) {
-    throw new Error(`Please set "productId" or correct "productLink".`);
+    throw new Error(`Please set correct product link`);
   }
 
   const productParams = {

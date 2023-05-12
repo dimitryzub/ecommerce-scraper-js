@@ -13,7 +13,7 @@ const getHomeDepotListingInfo = async (link, zipCode) => {
     )[0] || undefined;
 
   if (!parsedId) {
-    throw new Error(`Please set "productId" or correct "productLink".`);
+    throw new Error(`Please set correct product link`);
   }
 
   const productParams = {
