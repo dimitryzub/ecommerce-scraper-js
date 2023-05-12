@@ -4,6 +4,10 @@ import getAmazonListings from "./amazon/getAmazonListings.js";
 import getWalmartListingInfo from "./walmart/getWalmartListingInfo.js";
 import getWalmartListings from "./walmart/getWalmartListings.js";
 import save from "./helpers/fileSaver.js";
+import getEbayListings from "./ebay/getEbayListings.js";
+import getEbayParams from "./ebay/getEbayParams.js";
+import getWalmartParams from "./walmart/getWalmartParams.js";
+import getEbayListingInfo from "./ebay/getEbayListingInfo.js";
 
 export const amazon = {
   timeMultiplier: 1,
@@ -87,7 +91,40 @@ export const walmart = {
    * Get available params
    * @return {Object} An object with walmart stores.
    */
-  getParams: () => getParams(),
+  getParams: () => getWalmartParams(),
+};
+
+export const ebay = {
+  timeMultiplier: 1,
+
+  /**
+   * Get listings from eBay
+   * @async
+   * @param {String} searchQuery - search query;
+   * @param {Number} resultsLimit - results amount you want to get. Must be a number or `Infinity`. Default - 40;
+   * @param {String} country - ebay domain. You can use both "domain" or "country" from `getParams().countries`;
+   * @param {Number} priceFrom - min price filter value;
+   * @param {Number} priceTo - max price filter value;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListings: (searchQuery, resultsLimit, country, priceFrom, priceTo) =>
+    getEbayListings(searchQuery, resultsLimit, country, priceFrom, priceTo),
+
+  /**
+   * Get listing info from eBay
+   * @async
+   * @param {String} link - product link;
+   * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListingInfo: (link, reviewsLimit) =>
+    getEbayListingInfo(ebay.timeMultiplier, link, reviewsLimit),
+
+  /**
+   * Get available params
+   * @return {Object} An object with walmart stores.
+   */
+  getParams: () => getEbayParams(),
 };
 
 /**

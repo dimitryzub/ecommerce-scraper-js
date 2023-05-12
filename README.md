@@ -22,7 +22,7 @@ Currently supports:
 
 - [Amazon](https://amazon.com/)
 - [Walmart](https://www.walmart.com/)
-- [eBay](https://www.ebay.com/) (Soon)
+- [eBay](https://www.ebay.com/)
 - [Home Depot](https://www.homedepot.com/) (Soon)
 - [Google Shopping](https://shopping.google.com/) (Soon)
 
@@ -38,13 +38,14 @@ npm i ecommerce-scraper-js
 
 📌Note: Only [ES modules](https://nodejs.org/api/esm.html) `import` statement is available.
 
-Import `amazon` and/or `walmart` to your file:
+Import `amazon`, and/or `walmart`, and/or `ebay` to your file:
 
 ```javascript
-import { amazon, walmart } from "ecommerce-scraper-js";
+import { amazon, walmart, ebay } from "ecommerce-scraper-js";
 
 amazon.getListings().then(console.log);
 walmart.getListings().then(console.log);
+ebay.getListings().then(console.log);
 ```
 
 `amazon` available methods:
@@ -84,6 +85,27 @@ getParams()
 - `searchQuery` - search query;
 - `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 40;
 - `store` - specific store code. You can use both "store_id" or "address" from `getParams().stores`;
+- `priceFrom` - min price filter value;
+- `priceTo` - max price filter value;
+- `link` - product link;
+- `reviewsLimit` - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 20;
+
+</details>
+
+`ebay` available methods:
+
+```javascript
+getListings(searchQuery[, resultsLimit[, country[, priceFrom[, priceTo]]]])
+getListingInfo(link[, reviewsLimit[, store]])
+getParams()
+```
+
+<details>
+<summary>Full parameters list</summary>
+
+- `searchQuery` - search query;
+- `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 40;
+- `country` - ebay domain. You can use both "domain" or "country" from `getParams().countries`;
 - `priceFrom` - min price filter value;
 - `priceTo` - max price filter value;
 - `link` - product link;
@@ -204,6 +226,49 @@ amazon.getListings().then(console.log);
          "unit":"each"
       },
       "product_page_url":"https://www.walmart.com/ip/LEGO-Star-Wars-The-Clone-Wars-Duel-on-Mandalore-75310-Building-Toy-Featuring-Ahsoka-Tano-and-Darth-Maul-147-Pieces/208868538"
+   },
+   ... and other results
+]
+```
+
+**eBay results**
+
+```json
+[
+   {
+      "sponsored":true,
+      "title":"LEGO Star Wars: Republic Gunship (75021) complete with MiniFigs and extras ￼",
+      "link":"https://www.ebay.com/itm/354766182171?epid=26053433592&hash=item5299b6571b:g:378AAOSwIl1kVlQx&amdata=enc%3AAQAIAAAA4F1hw304C4VOu1V8YsSKmi4JVISwraSvf7XNYHJ41TtjZyhrehVX2iBJgIeCq6I8ytpA0SsdWgbd3KMV3YYKro%2FW6PjS3XlYQ0dQI5cjij5QtGmJ3GrqMbxG5tLRqzH3qKbWQxDuJv80c9VAsfhuZLFVei%2BkJh8SY0Zlsx8HkkffmHT0fxCABQdFeH3f33EvruNm33bLSsPqgTSmLJ7jVpRUVaEQmxLFk3fiOnRAJLPTzZ189Qmbrw2xJMmv7s6Cx7atd7D43ZtbVQt4cXErVksCNsXZh%2FEr9nv2alseaY4q%7Ctkp%3ABFBMvNHp5_5h",
+      "condition":"Pre-Owned",
+      "rating":5,
+      "reviews":72,
+      "price":{
+         "raw":"$350.00",
+         "extracted":350
+      },
+      "shipping":{
+         "raw":"+$30.00",
+         "extracted":30
+      },
+      "thumbnail":"https://i.ebayimg.com/thumbs/images/g/378AAOSwIl1kVlQx/s-l300.jpg",
+      "watchers":"17 watchers",
+      "extracted_watchers":17
+   },
+   {
+      "sponsored":true,
+      "title":"LEGO STAR WARS: The Mandalorian’s N-1 Starfighter (75325) - 412 pieces",
+      "link":"https://www.ebay.com/itm/155541492108?epid=22057119293&hash=item2436fed18c:g:-toAAOSwAUlkVsxL&amdata=enc%3AAQAIAAAA4H7u%2FGXyEzbXCcMPWS6It1LuUsYJk3PICAwqksANkIVqkdukXd4OXIJ%2FdvDxHzISVZmMN7UUi9whj1XQSyY%2B%2FO7lz%2FsbFTUwM2ubDQMgAOtJh57WOmxndlFTGL0Jz8yWHHlUf%2B0Ox0Lx%2FbHHRH5YHuf70ciY96IEn8r0%2Fk3mfnlDzGvDYmG4xPc2bUJEukXHDd%2Fk975h7%2FAW0hI09CpVISq2xyUY%2FP9wkPUwt11ZZQ3bBi1bxmqowGjqIFdE7nSe8vlI0V5GctHApkY7pdXeu79yrBNHS%2BwDjaaI4Jml47oM%7Ctkp%3ABFBMvNHp5_5h",
+      "condition":"Brand New",
+      "rating":5,
+      "reviews":3,
+      "price":{
+         "raw":"$46.99",
+         "extracted":46.99
+      },
+      "shipping":"Free shipping",
+      "thumbnail":"https://i.ebayimg.com/thumbs/images/g/-toAAOSwAUlkVsxL/s-l300.jpg",
+      "watchers":"11 watchers",
+      "extracted_watchers":11
    },
    ... and other results
 ]
@@ -430,6 +495,70 @@ same functionality).  I then modded the main fin to make the shape right.  It lo
       },
       ... and other reviews
    ]
+}
+```
+
+**eBay results**
+
+```json
+{
+   "title":"LEGO Star Wars: Millennium Falcon (7965)",
+   "link":"https://www.ebay.com/itm/166078319248?_trkparms=amclksrc%3DITM%26aid%3D1110002%26algo%3DSPLICE.SOI%26ao%3D1%26asc%3D20220920135751%26meid%3D7631bf0d3cab473baef9eb34af838066%26pid%3D101198%26rk%3D3%26rkt%3D11%26sd%3D166078332108%26itm%3D166078319248%26pmt%3D1%26noa%3D0%26pg%3D2047675%26algv%3DPromotedSellersOtherItemsV2%26brand%3DLEGO&_trksid=p2047675.c101198.m1985&amdata=cksum%3A1660783192487631bf0d3cab473baef9eb34af838066%7Cenc%3AAQAIAAABAA%252FERGDg2E0SMW9DhE0lxtZtFGRhG0a3KvJyqee%252BSYjljuvVrq8H0zA9qnJFBkYpLJIiHlbsJ8bDc1s2UrYmm4IAo0TLWn2vKS%252BSllr%252Fb19pYBvZpt2KiUn61NbqCQkf0HSJY8thQ2634o8kwGk6RB1f0QStbmDqP8KZ%252FOJjwBCflfHhALBMnpcjjvi8mJHf2eXlzdJD4hLYm6majw4iz7uRBJTyiEwADgOsjGtNaB01Qyi%252FWaBq95%252B6dcCp6%252B%252Bi0u97iP4N7VR5ITASzLVeHa%252BV%252BkrPpjWhrMb5H7pdlgh7aUS%252Bmp%252BgkPJ9aPiRmb8CWuOfWHbh0b4dT2GM4xJcr0s%253D%7Campid%3APL_CLK%7Cclp%3A2047675&epid=22053423850#rwid",
+   "condition":"New",
+   "price":"US $230.00",
+   "itemSpecifics":{
+      "Condition":"New: A brand-new, unused, unopened, undamaged item in its original packaging (where packaging is ...  Read moreabout the condition",
+      "Brand":"LEGO",
+      "LEGO Set Number":"7965",
+      "Release Year":"2011",
+      "LEGO Set Name":"Millennium Falcon",
+      "MPN":"7965",
+      "Age Level":"9-14"
+   },
+   "aboutProduct":{
+      "About this product":{
+         "Brand":"LEGO",
+         "MPN":"7965",
+         "Ean":"5702014736955",
+         "UPC":"0673419145909",
+         "eBay Product ID (ePID)":"22053423850",
+         "Age Level":"9-14",
+         "LEGO Theme":"Star Wars",
+         "Number of Pieces":"1254",
+         "Release Year":"2011",
+         "LEGO Set Number":"7965",
+         "Type":"Complete Set",
+         "LEGO Set Name":"Millennium Falcon",
+         "Item Length":"22.9 in",
+         "Item Height":"3.4 in",
+         "Item Width":"14.9 in",
+         "Launch Date":"7/19/2011"
+      }
+   },
+   "description":"LEGO Star Wars: Millennium Falcon (7965).",
+   "reviewsInfo":{
+      "rating":4.8,
+      "reviewsAmount":91,
+      "reviews":[
+         {
+            "name":"goldbork",
+            "rating":5,
+            "headeeng":"Excellent, faithful adaptation of an iconic spaceship",
+            "date":"Jan 22, 2016",
+            "bage":"Top favorable review",
+            "review":"I got mine used, so it invovled quite a bit more work to get setup than it would with a new set, but since there's a lot of repetition in the directions, it was surprisingly easy and less time consuming to put together than expected. Still, a lot of fun and great to have all the minifigure characters and accessories."
+         },
+         {
+            "name":"walkersutterfie...",
+            "rating":3,
+            "headeeng":"Missing pieces.",
+            "date":"Aug 05, 2020",
+            "bage":"Top critical review",
+            "review":"Set is about 99-98% complete, but was definitely missing 20 or so integral pieces to the build. Have a lot of scrap pieces and fixed it up, but just wish it was a little much more complete."
+         },
+      ... and other reviews
+      ]
+   }
 }
 ```
 

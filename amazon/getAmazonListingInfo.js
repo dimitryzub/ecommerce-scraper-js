@@ -28,10 +28,10 @@ const getMainInfo = async (page) => {
       productInformation:
         document.querySelector("#productDetails_feature_div tr") ||
         document.querySelector("#detailBulletsWrapper_feature_div li")
-          ? Array.from(
-              document.querySelectorAll("#productDetails_feature_div tr") ||
-                document.querySelectorAll("#detailBulletsWrapper_feature_div li")
-            )?.reduce((acc, el) => {
+          ? [
+              ...document.querySelectorAll("#productDetails_feature_div tr"),
+              ...document.querySelectorAll("#detailBulletsWrapper_feature_div li"),
+            ]?.reduce((acc, el) => {
               const element = el.querySelector("td") || el.querySelector("span > span:last-child");
               let text = "";
               if (element) {
