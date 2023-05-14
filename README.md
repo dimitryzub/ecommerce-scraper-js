@@ -24,7 +24,7 @@ Currently supports:
 - [Walmart](https://www.walmart.com/)
 - [eBay](https://www.ebay.com/)
 - [Home Depot](https://www.homedepot.com/)
-- [Google Shopping](https://shopping.google.com/) (Soon)
+- [Google Shopping](https://shopping.google.com/)
 
 ## Install
 
@@ -38,15 +38,16 @@ npm i ecommerce-scraper-js
 
 📌Note: Only [ES modules](https://nodejs.org/api/esm.html) `import` statement is available.
 
-Import `amazon`, and/or `walmart`, and/or `ebay`, and/or `homeDepot` to your file:
+Import `amazon`, and/or `walmart`, and/or `ebay`, and/or `homeDepot`, and/or `googleShopping` to your file:
 
 ```javascript
-import { amazon, walmart, ebay, homeDepot } from "ecommerce-scraper-js";
+import { amazon, walmart, ebay, homeDepot, googleShopping } from "ecommerce-scraper-js";
 
 amazon.getListings().then(console.log);
 walmart.getListings().then(console.log);
 ebay.getListings().then(console.log);
 homeDepot.getListings().then(console.log);
+googleShopping.getListings().then(console.log);
 ```
 
 `amazon` available methods:
@@ -119,7 +120,6 @@ getParams()
 ```javascript
 getListings(searchQuery[, resultsLimit[, zipCode[, priceFrom[, priceTo]]]])
 getListingInfo(link[, zipCode])
-getParams()
 ```
 
 <details>
@@ -131,7 +131,29 @@ getParams()
 - `priceFrom` - min price filter value;
 - `priceTo` - max price filter value;
 - `link` - product link;
-- `reviewsLimit` - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 20;
+
+</details>
+
+`googleShopping` available methods:
+
+```javascript
+getListings(searchQuery[, resultsLimit[, priceFrom[, priceTo[, domain[, country[, language]]]]]])
+getListingInfo(link[, reviewsLimit])
+getParams()
+```
+
+<details>
+<summary>Full parameters list</summary>
+
+- `searchQuery` - search query;
+- `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 60;
+- `priceFrom` - min price filter value;
+- `priceTo` - max price filter value;
+- `domain` - Google domain. You can use both "domain" or "country_name" from `getParams().domains`;
+- `country` - country code. You can use both "code" or "name" from `getParams().countries`;
+- `language` - language domain. You can use both "code" or "name" from `getParams().languages`;
+- `link` - product link;
+- `reviewsLimit` - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
 
 </details>
 
@@ -363,6 +385,48 @@ Check [usage examples](https://github.com/dimitryzub/ecommerce-scraper-js/tree/m
       "pickup":{
          "free_ship_to_store":true
       }
+   },
+   ... and other results
+]
+```
+
+**Google Shopping results**
+
+```json
+[
+   {
+      "position":1,
+      "title":"Great Value Entertainment Collection Pod Variety Pack - 23.5 oz",
+      "link":"https://www.walmart.com/ip/Great-Value-Entertainment-Collection-Variety-Pack-Medium-Roast-Coffee-Pods-56-Ct/883499069?wmlspartner=wlpa&selectedSellerId=0",
+      "product_link":"https://www.google.com/shopping/product/30834423602854991?gl=us",
+      "source":"Walmart",
+      "price":"$16.92",
+      "extracted_price":16.92,
+      "rating":4.2,
+      "reviews":228,
+      "badge":"Trusted store",
+      "thumbnail":"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSWJ8wJLV5MvmUAwCbfp_I2sQhP8elF0w8Zp9fOGMoQOsuKcI0WvkQCm1loUrm6-7qy9FrgTVQ6jToX972J3B36Mey-gbAebwzVoX1fS9nSgfrLR8bzbqSE&usqp=CAE",
+      "delivery":"$6.99 delivery · Free 90-day returns",
+      "store_rating":4.4,
+      "store_reviews":1000
+   },
+   {
+      "position":2,
+      "title":"Tim Hortons Original Blend Premium Coffee (100 Ct.)",
+      "link":"https://www.ebay.com/itm/333702080650?chn=ps&mkevt=1&mkcid=28&var=542787148397&srsltid=AR57-fDP-L0xQs1j87wf5u8zvlS3fN1IPHhkeVHzbf_g6iR9A5488Qtol6M&com_cvv=728226dcac6812cc905fc881d98c3179863eed129e9e6d3c7c5675bb96a05a05",
+      "product_link":"https://www.google.com/shopping/product/13401198925887391897?gl=us",
+      "source":"eBay - hightide.family.retailers2015",
+      "price":"$18.58",
+      "extracted_price":18.58,
+      "rating":4.1,
+      "reviews":7,
+      "badge":"Trusted store",
+      "thumbnail":"https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTQzmLM6j5SUWVhdmDvkLMdJQ9NjcSQoKHmL6iae0aGjn1U8OJPG2NwE-8p8ZwLJbGXl5r0PN048jw4zLlrM_K72BvMCaRO&usqp=CAE",
+      "tag":"FREE 3-DAY",
+      "extensions":[
+         "FREE 3-DAY"
+      ],
+      "delivery":"Free delivery by Thu, May 18"
    },
    ... and other results
 ]
@@ -785,6 +849,59 @@ drink formats.",
          }
       ]
    }
+}
+```
+
+**Google Shopping results**
+
+```json
+{
+   "title":"Lego Star Wars Cloud City Set 10123",
+   "prices":[
+      "$14.99"
+   ],
+   "conditions":[
+      "Used"
+   ],
+   "rating":4.6,
+   "extensions":[
+      "Star Wars"
+   ],
+   "description":"Includes all minifigures, build and instruction manual. No box. Also includes Boba Fett and Lando Calrissian from set 75222 betrayal cloud city and Boba Fett Classic Greys sw0002 from set 3341. Items will be sent tracked and insured. If any additional photos are required or if there are any questions, please feel free to message me. UK buyers only. nThanks.",
+   "media":[
+      {
+         "type":"image",
+         "link":"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTu9nm0IoGPUPw7z1sSvRMHBNKj9b1FfFXH0ko0PaUzHRlSots&usqp=CAY"
+      },
+      {
+         "type":"image",
+         "link":"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR2djmKcXI0VmpMFiZrhGmm_Q29bWcmQoVZy0ca_MlVqgyFZmQ&usqp=CAY"
+      },
+      {
+         "type":"image",
+         "link":"https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQhvxcubBC7dd7Op62OvRKb0JDOj1oovbbTlQtK5-0L08AmT7Du&usqp=CAY"
+      }
+   ],
+   "reviewsAmount":12,
+   "reviews":[
+      {
+         "position":1,
+         "title":"Lego Custom Boba Fett",
+         "date":"November 13, 2015",
+         "rating":5,
+         "source":"maggiebarnie · Review provided by ebay.com",
+         "content":"Looking at this listing, you might begin to think that this is too good to be true. But it is not. Here is a chance for you to buy a custom printed figure that is better than the $700.00-$900.00 original. The printing on the figure is flawless and has not shown any signs of fading, or flaking. Someone who is unfamiliar with the history of the original probably will still think that $40.00 is too expensive for a plastic figure, but I assure you it is not. If you are unwilling to spend two weeks wages on the original, I highly suggest this minifigure instead. "
+      },
+      {
+         "position":2,
+         "title":"Really nice, exactly like photo!",
+         "date":"September 22, 2021",
+         "rating":5,
+         "source":"wilhevange0 · Review provided by ebay.com",
+         "content":"Nice for a star wars collection. I love it. Exactly like photos. Quite realistic lego. "
+      },
+      ... and other reviews
+   ]
 }
 ```
 

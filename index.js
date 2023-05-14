@@ -10,6 +10,9 @@ import getWalmartParams from "./walmart/getWalmartParams.js";
 import getEbayListingInfo from "./ebay/getEbayListingInfo.js";
 import getHomeDepotListings from "./homeDepot/getHomeDepotListings.js";
 import getHomeDepotListingInfo from "./homeDepot/getHomeDepotListingInfo.js";
+import getGoogleShoppingListings from "./googleShopping/getGoogleShoppingListings.js";
+import getGoogleShoppingListingInfo from "./googleShopping/getGoogleShoppingListingInfo.js";
+import getGoogleShoppingParams from "./googleShopping/getGoogleShoppingParams.js";
 
 export const amazon = {
   timeMultiplier: 1,
@@ -152,12 +155,46 @@ export const homeDepot = {
    * @return {Array.<Object>} - an array with listings.
    */
   getListingInfo: (link, zipCode) => getHomeDepotListingInfo(link, zipCode),
+};
+
+export const googleShopping = {
+  /**
+   * Get listings from Google Shopping
+   * @async
+   * @param {String} searchQuery - search query;
+   * @param {Number} resultsLimit - results amount you want to get. Must be a number or `Infinity`. Default - 60;
+   * @param {Number} priceFrom - min price filter value;
+   * @param {Number} priceTo - max price filter value;
+   * @param {String} domain - Google domain. You can use both "domain" or "country_name" from `getParams().domains`;
+   * @param {String} country - country code. You can use both "code" or "name" from `getParams().countries`;
+   * @param {String} language - language domain. You can use both "code" or "name" from `getParams().languages`;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListings: (searchQuery, resultsLimit, priceFrom, priceTo, domain, country, language) =>
+    getGoogleShoppingListings(
+      searchQuery,
+      resultsLimit,
+      priceFrom,
+      priceTo,
+      domain,
+      country,
+      language
+    ),
+
+  /**
+   * Get listing info from Google Shopping
+   * @async
+   * @param {String} link - product link;
+   * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
+   * @return {Array.<Object>} - an array with listings.
+   */
+  getListingInfo: (link, reviewsLimit) => getGoogleShoppingListingInfo(link, reviewsLimit),
 
   /**
    * Get available params
    * @return {Object} An object with walmart stores.
    */
-  getParams: () => getWalmartParams(),
+  getParams: () => getGoogleShoppingParams(),
 };
 
 /**
