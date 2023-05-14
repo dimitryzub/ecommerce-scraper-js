@@ -171,7 +171,7 @@ const getEbayListingInfo = async (multiplierArgument, link, reviewsLimit = 10) =
     listingInfo.reviewsInfo.reviews = listingInfo.reviewsInfo.reviews.slice(0, reviewsLimit);
   }
 
-  // await closeBrowser();
+  await closeBrowser();
 
   return listingInfo;
 };

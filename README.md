@@ -166,6 +166,10 @@ amazon.timeMultiplier = 2; // double Amazon load times
 amazon.getListings().then(console.log);
 ```
 
+## Usage examples
+
+Check [usage examples](https://github.com/dimitryzub/ecommerce-scraper-js/tree/main/examples) of each parser.
+
 ## Results example
 
 <details>
