@@ -14,6 +14,10 @@ import getGoogleShoppingListings from "./googleShopping/getGoogleShoppingListing
 import getGoogleShoppingListingInfo from "./googleShopping/getGoogleShoppingListingInfo.js";
 import getGoogleShoppingParams from "./googleShopping/getGoogleShoppingParams.js";
 
+export const config = {
+  API_KEY: undefined,
+};
+
 export const amazon = {
   timeMultiplier: 1,
 
@@ -24,26 +28,29 @@ export const amazon = {
    * @param {Number} resultsLimit - results amount you want to get. Must be a number or `Infinity`. Default - 50;
    * @param {String} currency - currency code. You can use both "text" or "code" from `getParams().currencies`;
    * @param {String} language - interface language code. You can use both "text" or "code" from `getParams().currencies`;
+   * @param {String} zipCode - ZIP Postal code. To filter the products available to deliver to the selected postal code;
    * @param {Number} priceFrom - min price filter value;
    * @param {Number} priceTo - max price filter value;
    * @param {Number} customerReviewsRating - customer review rating filter. Can be set from 1 to 4.;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<Array>} - an array with listings.
    */
-  getListings: (
+  getListings: async (
     searchQuery,
     resultsLimit,
     currency,
     language,
+    zipCode,
     priceFrom,
     priceTo,
     customerReviewsRating
   ) =>
-    getAmazonListings(
+    await getAmazonListings(
       amazon.timeMultiplier,
       searchQuery,
       resultsLimit,
       currency,
       language,
+      zipCode,
       priceFrom,
       priceTo,
       customerReviewsRating
@@ -56,10 +63,10 @@ export const amazon = {
    * @param {String} currency - currency code. You can use both "text" or "code" from `getParams().currencies`;
    * @param {String} language - interface language code. You can use both "text" or "code" from `getParams().currencies`;
    * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<{}>} - an object with listing info.
    */
-  getListingInfo: (link, currency, language, reviewsLimit) =>
-    getAmazonListingInfo(amazon.timeMultiplier, link, currency, language, reviewsLimit),
+  getListingInfo: async (link, currency, language, reviewsLimit) =>
+    await getAmazonListingInfo(amazon.timeMultiplier, link, currency, language, reviewsLimit),
 
   /**
    * Get available languages and currencies
@@ -77,10 +84,10 @@ export const walmart = {
    * @param {String} store - specific store code. You can use both "store_id" or "address" from `getParams().stores`;
    * @param {Number} priceFrom - min price filter value;
    * @param {Number} priceTo - max price filter value;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<Array>} - an array with listings.
    */
-  getListings: (searchQuery, resultsLimit, store, priceFrom, priceTo) =>
-    getWalmartListings(searchQuery, resultsLimit, store, priceFrom, priceTo),
+  getListings: async (searchQuery, resultsLimit, store, priceFrom, priceTo) =>
+    await getWalmartListings(searchQuery, resultsLimit, store, priceFrom, priceTo),
 
   /**
    * Get listing info from Walmart
@@ -88,9 +95,10 @@ export const walmart = {
    * @param {String} link - product link;
    * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
    * @param {String} store - specific store code. You can use both "store_id" or "address" from `getParams().stores`;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<{}>} - an object with listing info.
    */
-  getListingInfo: (link, reviewsLimit, store) => getWalmartListingInfo(link, reviewsLimit, store),
+  getListingInfo: async (link, reviewsLimit, store) =>
+    await getWalmartListingInfo(link, reviewsLimit, store),
 
   /**
    * Get available params
@@ -110,20 +118,20 @@ export const ebay = {
    * @param {String} country - ebay domain. You can use both "domain" or "country" from `getParams().countries`;
    * @param {Number} priceFrom - min price filter value;
    * @param {Number} priceTo - max price filter value;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<Array>} - an array with listings.
    */
-  getListings: (searchQuery, resultsLimit, country, priceFrom, priceTo) =>
-    getEbayListings(searchQuery, resultsLimit, country, priceFrom, priceTo),
+  getListings: async (searchQuery, resultsLimit, country, priceFrom, priceTo) =>
+    await getEbayListings(searchQuery, resultsLimit, country, priceFrom, priceTo),
 
   /**
    * Get listing info from eBay
    * @async
    * @param {String} link - product link;
    * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<{}>} - an object with listing info.
    */
-  getListingInfo: (link, reviewsLimit) =>
-    getEbayListingInfo(ebay.timeMultiplier, link, reviewsLimit),
+  getListingInfo: async (link, reviewsLimit) =>
+    await getEbayListingInfo(ebay.timeMultiplier, link, reviewsLimit),
 
   /**
    * Get available params
@@ -141,10 +149,10 @@ export const homeDepot = {
    * @param {String} zipCode - ZIP Postal code. To filter the shipping products by a selected area;
    * @param {Number} priceFrom - min price filter value;
    * @param {Number} priceTo - max price filter value;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<Array>} - an array with listings.
    */
-  getListings: (searchQuery, resultsLimit, zipCode, priceFrom, priceTo) =>
-    getHomeDepotListings(searchQuery, resultsLimit, zipCode, priceFrom, priceTo),
+  getListings: async (searchQuery, resultsLimit, zipCode, priceFrom, priceTo) =>
+    await getHomeDepotListings(searchQuery, resultsLimit, zipCode, priceFrom, priceTo),
 
   /**
    * Get listing info from The Home Depot
@@ -152,9 +160,9 @@ export const homeDepot = {
    * @param {String} link - product link;
    * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
    * @param {String} zipCode - ZIP Postal code. To filter the shipping products by a selected area;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<{}>} - an object with listing info.
    */
-  getListingInfo: (link, zipCode) => getHomeDepotListingInfo(link, zipCode),
+  getListingInfo: async (link, zipCode) => await getHomeDepotListingInfo(link, zipCode),
 };
 
 export const googleShopping = {
@@ -168,10 +176,10 @@ export const googleShopping = {
    * @param {String} domain - Google domain. You can use both "domain" or "country_name" from `getParams().domains`;
    * @param {String} country - country code. You can use both "code" or "name" from `getParams().countries`;
    * @param {String} language - language domain. You can use both "code" or "name" from `getParams().languages`;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<Array>} - an array with listings.
    */
-  getListings: (searchQuery, resultsLimit, priceFrom, priceTo, domain, country, language) =>
-    getGoogleShoppingListings(
+  getListings: async (searchQuery, resultsLimit, priceFrom, priceTo, domain, country, language) =>
+    await getGoogleShoppingListings(
       searchQuery,
       resultsLimit,
       priceFrom,
@@ -186,9 +194,10 @@ export const googleShopping = {
    * @async
    * @param {String} link - product link;
    * @param {Number} reviewsLimit - parameter defines the reviews amount you want to get. Must be a number or `Infinity`. Default - 10;
-   * @return {Array.<Object>} - an array with listings.
+   * @return {Promise<{}>} - an object with listing info.
    */
-  getListingInfo: (link, reviewsLimit) => getGoogleShoppingListingInfo(link, reviewsLimit),
+  getListingInfo: async (link, reviewsLimit) =>
+    await getGoogleShoppingListingInfo(link, reviewsLimit),
 
   /**
    * Get available params

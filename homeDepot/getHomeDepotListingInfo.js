@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 
 const getHomeDepotListingInfo = async (link, zipCode) => {
   const zipPattern1 = /^\d{5}$/g;
@@ -17,6 +18,7 @@ const getHomeDepotListingInfo = async (link, zipCode) => {
   }
 
   const productParams = {
+    api_key: config.API_KEY,
     product_id: parsedId,
     delivery_zip: zipCode || undefined,
   };

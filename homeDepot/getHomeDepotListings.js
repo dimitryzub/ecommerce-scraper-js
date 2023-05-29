@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 
 const getHomeDepotListings = async (query, limit = 40, zipCode, priceFrom, priceTo) => {
   const zipPattern1 = /^\d{5}$/g;
@@ -21,6 +22,7 @@ const getHomeDepotListings = async (query, limit = 40, zipCode, priceFrom, price
   }
 
   const params = {
+    api_key: config.API_KEY,
     device: "desktop",
     q: query,
     delivery_zip: zipCode || undefined,
