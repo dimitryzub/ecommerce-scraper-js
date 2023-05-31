@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 import getEbayParams from "./getEbayParams.js";
 
 const getEbayListings = async (query, limit = 40, country, priceFrom, priceTo) => {
@@ -27,6 +28,7 @@ const getEbayListings = async (query, limit = 40, country, priceFrom, priceTo) =
   }
 
   const params = {
+    api_key: config.API_KEY,
     _nkw: query,
     ebay_domain: selectedCountry || undefined,
     _udlo: priceFrom || undefined,

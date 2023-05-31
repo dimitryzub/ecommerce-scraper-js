@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 import getWalmartParams from "./getWalmartParams.js";
 
 const getWalmartListingsInfo = async (link, limit = 20, store) => {
@@ -21,6 +22,7 @@ const getWalmartListingsInfo = async (link, limit = 20, store) => {
   }
 
   const productParams = {
+    api_key: config.API_KEY,
     device: "desktop",
     product_id: parsedId,
     store_id: storeId || undefined,
@@ -60,6 +62,7 @@ const getWalmartListingsInfo = async (link, limit = 20, store) => {
     let revewsAmount;
 
     const reviewsParams = {
+      api_key: config.API_KEY,
       product_id: parsedId,
       store_id: storeId || undefined,
       page: 1,

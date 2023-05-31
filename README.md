@@ -26,6 +26,8 @@ Currently supports:
 - [Home Depot](https://www.homedepot.com/)
 - [Google Shopping](https://shopping.google.com/)
 
+📌Note: This tool use SerpApi engines for eBay (for listings page), Walmart, Home Depot, and Google Shopping. If you want to use it for personal or commercial purposes, you must register on [SerpApi](https://serpapi.com/) and get your own API key (no credit card needed, free plan available). The default API key used is for informational purposes only.
+
 ## Install
 
 Add `ecommerce-scraper-js` to your project dependency:
@@ -38,10 +40,12 @@ npm i ecommerce-scraper-js
 
 📌Note: Only [ES modules](https://nodejs.org/api/esm.html) `import` statement is available.
 
-Import `amazon`, and/or `walmart`, and/or `ebay`, and/or `homeDepot`, and/or `googleShopping` to your file:
+Before use, you need to define [your API key from SerpApi](https://serpapi.com/manage-api-key). Import `config`, `amazon`, and/or `walmart`, and/or `ebay`, and/or `homeDepot`, and/or `googleShopping` to your file:
 
 ```javascript
-import { amazon, walmart, ebay, homeDepot, googleShopping } from "ecommerce-scraper-js";
+import { config, amazon, walmart, ebay, homeDepot, googleShopping } from "ecommerce-scraper-js";
+
+config.API_KEY = "your_api_key_from_serpApi";
 
 amazon.getListings().then(console.log);
 walmart.getListings().then(console.log);
@@ -53,7 +57,7 @@ googleShopping.getListings().then(console.log);
 `amazon` available methods:
 
 ```javascript
-getListings(searchQuery[, resultsLimit[, currency[, language[, priceFrom[, priceTo[, customerReviewsRating]]]]]])
+getListings(searchQuery[, resultsLimit[, currency[, zipCode[, language[, priceFrom[, priceTo[, customerReviewsRating]]]]]]])
 getListingInfo(link[, currency[, language[, reviewsLimit]]])
 getParams()
 ```
@@ -65,6 +69,7 @@ getParams()
 - `resultsLimit` - results amount you want to get. Must be a number or `Infinity`. Default - 50;
 - `currency` - currency code. You can use both "text" or "code" from `getParams().currencies`;
 - `language` - interface language code. You can use both "text" or "code" from `getParams().currencies`;
+- `zipCode` - ZIP Postal code. To filter the products available to deliver to the selected postal code;
 - `priceFrom` - min price filter value;
 - `priceTo` - max price filter value;
 - `customerReviewsRating` - customer review rating filter. Can be set from 1 to 4.;

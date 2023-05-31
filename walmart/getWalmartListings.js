@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 import getWalmartParams from "./getWalmartParams.js";
 
 const getWalmartListings = async (query, limit = 40, store, priceFrom, priceTo) => {
@@ -25,6 +26,7 @@ const getWalmartListings = async (query, limit = 40, store, priceFrom, priceTo) 
   }
 
   const params = {
+    api_key: config.API_KEY,
     device: "desktop",
     query,
     store_id: storeId || undefined,

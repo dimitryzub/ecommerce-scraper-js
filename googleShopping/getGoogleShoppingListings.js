@@ -1,4 +1,5 @@
 import serpapi from "../helpers/serpapiHandler.js";
+import { config } from "../index.js";
 import getGoogleShoppingParams from "./getGoogleShoppingParams.js";
 
 const getGoogleShoppingListings = async (
@@ -46,6 +47,7 @@ const getGoogleShoppingListings = async (
   }
 
   const params = {
+    api_key: config.API_KEY,
     q: query,
     google_domain: selectedDomain?.domain || "google.com",
     gl: selectedCountry || selectedDomain?.default_country_code || "us",

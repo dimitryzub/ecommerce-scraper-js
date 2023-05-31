@@ -93,6 +93,7 @@ const getAmazonListings = async (
   limit,
   currency,
   language,
+  zipCode,
   priceFrom,
   priceTo,
   customerReviewsRating
@@ -125,6 +126,12 @@ const getAmazonListings = async (
         `Please select available currency (use "getParams().currencies" to get all currencies list).`
       );
     }
+  }
+
+  const zipPattern1 = /^\d{5}$/g;
+  const zipPattern2 = /^\d{5}-\d{4}$/g;
+  if (zipCode && !zipPattern1.test(zipCode) && !zipPattern2.test(zipCode)) {
+    throw new Error(`Please set correct ZIP code.`);
   }
 
   if (priceFrom || priceTo) {
@@ -169,6 +176,22 @@ const getAmazonListings = async (
     await page.click(`#${currencyCode} a`);
     await waitForTimeout(1000 * multiplier);
     await page.click(`#icp-save-button`);
+    await waitForTimeout(1000 * multiplier);
+    await page.waitForSelector("#reviewsRefinements");
+  }
+
+  if (zipCode) {
+    await page.click(`#glow-ingress-block`);
+    await waitForTimeout(3000 * multiplier);
+    await page.click(`#GLUXZipUpdateInput`);
+    await waitForTimeout(1000 * multiplier);
+    await page.keyboard.type(zipCode);
+    await waitForTimeout(1000 * multiplier);
+    await page.click(`#GLUXZipInputSection [type="submit"]`);
+    await waitForTimeout(2000 * multiplier);
+    await page.keyboard.press(`Tab`);
+    await waitForTimeout(500 * multiplier);
+    await page.keyboard.press(`Enter`);
     await waitForTimeout(1000 * multiplier);
     await page.waitForSelector("#reviewsRefinements");
   }
